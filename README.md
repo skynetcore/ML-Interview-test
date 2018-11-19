@@ -4,7 +4,7 @@ Hi this is Derric taking Bonsai ML test
 
 ### Understood the Goal:
 I have understood that the task is to recommend a book that a user is most likely to buy next using the data provided. I have taken the dataset from here: https://www.dropbox.com/sh/uj3nsf66mtwm36q/AADLUNVShEZ0VI3DsLad6S4Ta?dl=0
-The model should is feasible in a production environment considering algorithm, speed and accuracy.
+The model is being made feasible in a production environment considering algorithm, speed and accuracy.
 
 The time for generating suggestion books from 3000 available books per user is currently 40 minutes
 
