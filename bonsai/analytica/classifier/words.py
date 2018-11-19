@@ -26,6 +26,13 @@ class Words(object):
     def __init__(self):
         self.__document_classes = {}
         self.__vocabulary = WordBucket()
+        self.__loop_index = 0
+        
+    def get_loop_index(self):
+        return self.__loop_index
+    
+    def set_loop_index(self, index):
+        self.__loop_index = index
     
     def load_training_data(self, file_path):
         '''
@@ -37,10 +44,21 @@ class Words(object):
         pkl_object = pickle.load(pickle_file)
         self.__vocabulary = pkl_object
         '''
-        pickle_file = open(file_path + os.path.sep + "all_classes.pkl", 'rb')
-        pkl_object = pickle.load(pickle_file)
-        self.__document_classes = pkl_object.__document_classes
-        self.__vocabulary = pkl_object.__vocabulary
+        pickle_file = file_path + os.path.sep + "words.pkl"
+        
+        try:
+            
+            if os.path.isfile(pickle_file):
+                pkl_object = pickle.load(open(pickle_file, 'rb'))
+                self.__document_classes = pkl_object.__document_classes
+                self.__vocabulary = pkl_object.__vocabulary
+                self.__loop_index = pkl_object.__loop_index
+        
+        except EOFError:
+            print("pickle file read error")
+        else:
+            print("pickle file read successfully")
+    
     
     def save_training_data(self, file_path):
         '''
@@ -50,8 +68,13 @@ class Words(object):
         pickle_file = open(file_path + os.path.sep + "all_classes.pkl", 'wb')
         pickle.dump(self.__vocabulary, pickle_file, pickle.HIGHEST_PROTOCOL)
         '''
-        pickle_file = open(file_path + os.path.sep + "all_classes.pkl", 'wb')
-        pickle.dump(self, pickle_file, pickle.HIGHEST_PROTOCOL)
+        pickle_file = file_path + os.path.sep + "words.pkl"
+        
+        if os.path.isfile(pickle_file):
+            os.remove(pickle_file)
+        
+        with open(pickle_file, 'wb') as dump_file:
+            pickle.dump(self, dump_file, pickle.HIGHEST_PROTOCOL)
                 
     def sum_words_per_category(self, dclass):
         """ The number of times all different words of a dclass appear in a class """
